@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Message from Universe</title>
+<title>Chaotic Prophecy Fireworks</title>
 
 <style>
   * { box-sizing: border-box; margin:0; padding:0; }
@@ -17,24 +17,6 @@
     overflow: hidden;
     background: #1151a1;
     color: #fff;
-    position: relative;
-  }
-
-  /* MOVING STREAKS BACKGROUND */
-  .streak {
-    position: absolute;
-    width: 2px;
-    height: 50px;
-    border-radius: 50%;
-    opacity: 0.6;
-    pointer-events: none;
-    animation: moveStreak 6s linear infinite;
-  }
-
-  @keyframes moveStreak {
-    0% { transform: translateY(100vh) translateX(0) scaleY(1); opacity:0; }
-    50% { opacity:0.6; }
-    100% { transform: translateY(-10vh) translateX(50px) scaleY(1.5); opacity:0; }
   }
 
   /* FIREWORKS PARTICLE */
@@ -168,15 +150,13 @@
 
 <body>
 
-<!-- CARD -->
 <div class="card">
-  <h1>🌌 A Message from the Universe</h1>
+  <h1>✨ Your Chaotic Fate</h1>
   <p>Type your name and let the cosmic nonsense unfold.</p>
   <input type="text" id="nameInput" placeholder="Your name…"/>
   <button onclick="revealFate()">Reveal Fate</button>
 </div>
 
-<!-- MODAL -->
 <div class="overlay" id="overlay">
   <div class="modal" id="modal">
     <p id="result"></p>
@@ -199,6 +179,7 @@
     const randomFortune = fortunes[Math.floor(Math.random()*fortunes.length)];
     document.getElementById("result").innerText = `${name}, ${randomFortune}`;
     document.getElementById("overlay").style.display = "flex";
+
     createFireworks();
   }
 
@@ -221,18 +202,6 @@
       setTimeout(()=>p.remove(), 1500);
     }
   }
-
-  // MOVING STREAKS BACKGROUND
-  for(let i=0;i<20;i++){
-    const s = document.createElement("div");
-    s.classList.add("streak");
-    s.style.left = `${Math.random()*100}vw`;
-    s.style.background = ['#c22a29','#fce910'][Math.floor(Math.random()*2)];
-    s.style.height = `${20+Math.random()*40}px`;
-    s.style.animationDuration = `${4+Math.random()*4}s`;
-    document.body.appendChild(s);
-  }
-
 </script>
 
 </body>
