@@ -55,6 +55,19 @@
     to { transform: scale(1); opacity: 1; }
   }
 
+  /* CARD SHAKE */
+  .shake {
+    animation: shakeAnim 0.3s;
+  }
+
+  @keyframes shakeAnim {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-8px); }
+    50% { transform: translateX(8px); }
+    75% { transform: translateX(-8px); }
+    100% { transform: translateX(0); }
+  }
+
   h1 {
     font-size: 1.6rem;
     color: #1151a1;
@@ -173,7 +186,7 @@
 
 <body>
 
-<div class="card">
+<div class="card" id="card">
   <h1>✨ Your Chaotic Fate</h1>
   <p>Type your name and let the cosmic nonsense unfold.</p>
   <input type="text" id="nameInput" placeholder="Your name…"/>
@@ -198,18 +211,27 @@
 
 <script>
   const fortunes = [
-    "jemuranmu akan keujanan.",
-    "kamu akan dapat akun kosongan gratis",
-    "rumah anda akan dibedah.",
-    "laundry langgananmu tutup.",
-    "lengkuasmu akan menjadi daging.",
-    "Gojo akan hidup lagi"
-    "kamu akan menang giveaway blender."
+    "Lengkuasmu akan menjadi daging",
+    "Kamu akan menang giveaway blender",
+    "Gojo akan hidup lagi",
+    "Jemuranmu akan keujanan",
+    "Kamu akan dapat akun kosongan gratis",
+    "Rumah anda akan dibedah",
+    "Laundry langgananmu tutup"
   ];
 
   function revealFate(){
+    const card = document.getElementById("card");
     const loading = document.getElementById("loadingContainer");
     const nameInput = document.getElementById("nameInput");
+
+    // Card shake
+    card.classList.add("shake");
+
+    // Remove shake class after animation ends
+    setTimeout(()=>{ card.classList.remove("shake"); }, 300);
+
+    // Show loading
     loading.style.display = "flex";
     nameInput.disabled = true;
 
@@ -249,4 +271,3 @@
 
 </body>
 </html>
-
