@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Chaotic Prophecy</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #2f6bff, #ffd84d, #ff4d4d);
+    }
+
+    .card {
+      background: rgba(255,255,255,0.95);
+      padding: 28px;
+      border-radius: 20px;
+      width: 94%;
+      max-width: 420px;
+      text-align: center;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 12px;
+    }
+
+    p {
+      font-size: 1.1rem;
+      margin-bottom: 20px;
+      color: #444;
+    }
+
+    input {
+      width: 100%;
+      padding: 16px;
+      font-size: 1.1rem;
+      border-radius: 12px;
+      border: 1px solid #ccc;
+      margin-bottom: 16px;
+    }
+
+    button {
+      width: 100%;
+      padding: 16px;
+      font-size: 1.1rem;
+      border-radius: 14px;
+      border: none;
+      background: #2f6bff;
+      color: white;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #1f4ed8;
+    }
+
+    /* ===== MODAL ===== */
+    .overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .modal {
+      background: white;
+      border-radius: 20px;
+      padding: 26px;
+      max-width: 400px;
+      width: 100%;
+      text-align: center;
+      animation: pop 0.25s ease;
+    }
+
+    @keyframes pop {
+      from {
+        transform: scale(0.9);
+        opacity: 0;
+      }
+      to {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    .modal p {
+      font-size: 1.3rem;
+      margin-bottom: 20px;
+    }
+
+    .close-btn {
+      background: #ff4d4d;
+    }
+
+    .close-btn:hover {
+      background: #e63c3c;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="card">
+    <h1>✨ Your Daily Chaotic Prophecy</h1>
+    <p>Enter your name and let the fake universe speak.</p>
+
+    <input id="nameInput" placeholder="Your name here" />
+
+    <button onclick="generate()">Reveal My Fate</button>
+  </div>
+
+  <!-- POPUP -->
+  <div class="overlay" id="overlay">
+    <div class="modal">
+      <p id="result"></p>
+      <button class="close-btn" onclick="closeModal()">Close</button>
+    </div>
+  </div>
+
+  <script>
+    const templates = [
+      "{nama}, your aura today is louder than free WiFi with full bars 📶",
+      "{nama}, the universe says you're dangerously charming",
+      "{nama}, today you radiate main-character energy",
+      "{nama}, fate predicts unnecessary overthinking tonight",
+      "{nama}, you're hotter than spicy fried chicken and it's concerning 🔥"
+    ];
+
+    function generate() {
+      const name = document.getElementById("nameInput").value || "You";
+      const random = templates[Math.floor(Math.random() * templates.length)];
+
+      document.getElementById("result").innerText =
+        random.replace("{nama}", name);
+
+      document.getElementById("overlay").style.display = "flex";
+    }
+
+    function closeModal() {
+      document.getElementById("overlay").style.display = "none";
+    }
+  </script>
+
+</body>
+</html>
