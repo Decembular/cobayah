@@ -145,6 +145,29 @@
 
   .close-btn:hover { transform: scale(1.05); }
 
+  /* LOADING DOTS */
+  .loading {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+    gap: 6px;
+  }
+
+  .loading div {
+    width: 10px;
+    height: 10px;
+    background: #c22a29;
+    border-radius: 50%;
+    animation: bounce 0.6s infinite alternate;
+  }
+
+  .loading div:nth-child(2) { animation-delay: 0.2s; }
+  .loading div:nth-child(3) { animation-delay: 0.4s; }
+
+  @keyframes bounce {
+    to { transform: translateY(-10px); }
+  }
+
 </style>
 </head>
 
@@ -155,6 +178,15 @@
   <p>Type your name and let the cosmic nonsense unfold.</p>
   <input type="text" id="nameInput" placeholder="Your name…"/>
   <button onclick="revealFate()">Reveal Fate</button>
+
+  <!-- Loading container -->
+  <div id="loadingContainer" style="display:none;">
+    <div class="loading">
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+  </div>
 </div>
 
 <div class="overlay" id="overlay">
@@ -175,12 +207,22 @@
   ];
 
   function revealFate(){
-    const name = document.getElementById("nameInput").value.trim() || "You";
-    const randomFortune = fortunes[Math.floor(Math.random()*fortunes.length)];
-    document.getElementById("result").innerText = `${name}, ${randomFortune}`;
-    document.getElementById("overlay").style.display = "flex";
+    const loading = document.getElementById("loadingContainer");
+    const nameInput = document.getElementById("nameInput");
+    loading.style.display = "flex";
+    nameInput.disabled = true;
 
-    createFireworks();
+    setTimeout(()=> {
+      loading.style.display = "none";
+      nameInput.disabled = false;
+
+      const name = nameInput.value.trim() || "You";
+      const randomFortune = fortunes[Math.floor(Math.random()*fortunes.length)];
+      document.getElementById("result").innerText = `${name}, ${randomFortune}`;
+      document.getElementById("overlay").style.display = "flex";
+
+      createFireworks();
+    }, 1500); // 1.5 detik loading
   }
 
   function closeModal(){
