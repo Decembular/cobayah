@@ -1,185 +1,154 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Chaotic Prophecy</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Fate Generator</title>
 
-<style>
-  body {
-    margin: 0;
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-family: 'Arial', sans-serif;
-
-    /* CUSTOM BACKGROUND */
-    background: #2f6bff;
-  }
-
-  .card {
-    background: rgba(255,255,255,0.9);
-    padding: 28px;
-    border-radius: 22px;
-    width: 94%;
-    max-width: 420px;
-    text-align: center;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.25);
-  }
-
-  h1 {
-    font-size: 2rem;
-    margin-bottom: 12px;
-  }
-
-  p {
-    font-size: 1.1rem;
-    color: #444;
-    margin-bottom: 20px;
-  }
-
-  input, button {
-    width: 100%;
-    padding: 16px;
-    font-size: 1.1rem;
-    border-radius: 14px;
-    border: none;
-  }
-
-  input {
-    border: 1px solid #ccc;
-    margin-bottom: 16px;
-  }
-
-  button {
-    background: #2f6bff;
-    color: white;
-    cursor: pointer;
-  }
-
-  /* ===== OVERLAY ===== */
-  .overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.55);
-    display: none;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-  }
-
-  .modal {
-    background: white;
-    border-radius: 24px;
-    padding: 28px;
-    max-width: 420px;
-    width: 100%;
-    text-align: center;
-    animation: fadeUp 0.45s ease forwards;
-    position: relative;
-    overflow: hidden;
-  }
-
-  @keyframes fadeUp {
-    from {
-      opacity: 0;
-      transform: translateY(20px) scale(0.96);
+  <style>
+    * {
+      box-sizing: border-box;
     }
-    to {
-      opacity: 1;
-      transform: translateY(0) scale(1);
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: "Poppins", Arial, sans-serif;
+
+      /* BACKGROUND BIRU */
+      background: linear-gradient(135deg, #3f87ff, #8ec5ff);
     }
-  }
 
-  .modal p {
-    font-size: 1.35rem;
-    margin-bottom: 22px;
-  }
+    .card {
+      width: 90%;
+      max-width: 380px;
+      padding: 24px;
+      border-radius: 20px;
 
-  .close-btn {
-    background: #ff4d4d;
-    color: white;
-  }
+      /* BIAR BIRU KELIATAN DI BELAKANG */
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(10px);
 
-  /* ===== SPARKLES ===== */
-  .sparkle {
-    position: absolute;
-    width: 6px;
-    height: 6px;
-    background: gold;
-    border-radius: 50%;
-    animation: sparkle 1s ease-out forwards;
-    pointer-events: none;
-  }
-
-  @keyframes sparkle {
-    from {
-      opacity: 1;
-      transform: scale(1);
+      text-align: center;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+      animation: fadeIn 0.8s ease;
     }
-    to {
-      opacity: 0;
-      transform: scale(2) translateY(-20px);
+
+    h1 {
+      margin-top: 0;
+      font-size: 1.6rem;
+      letter-spacing: 0.5px;
     }
-  }
-</style>
+
+    p {
+      font-size: 0.95rem;
+      opacity: 0.8;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px 14px;
+      margin-top: 14px;
+      border-radius: 12px;
+      border: 1px solid #ddd;
+      font-size: 1rem;
+      outline: none;
+    }
+
+    button {
+      margin-top: 16px;
+      width: 100%;
+      padding: 12px;
+      border-radius: 999px;
+      border: none;
+      font-size: 1rem;
+      cursor: pointer;
+      background: #3f87ff;
+      color: white;
+      transition: transform 0.2s ease, background 0.2s ease;
+    }
+
+    button:hover {
+      background: #2f6bff;
+      transform: scale(1.03);
+    }
+
+    .result-box {
+      margin-top: 20px;
+      padding: 16px;
+      border-radius: 16px;
+      background: white;
+      font-size: 0.95rem;
+      animation: popUp 0.4s ease;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes popUp {
+      from {
+        opacity: 0;
+        transform: scale(0.9);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+  </style>
 </head>
 
 <body>
 
-<div class="card">
-  <h1>✨ Your Daily Chaotic Prophecy</h1>
-  <p>Enter your name and let the fake universe speak.</p>
+  <div class="card">
+    <h1>✨ Reveal Your Fate</h1>
+    <p>Type your name and let destiny speak.</p>
 
-  <input id="nameInput" placeholder="Your name here">
-  <button onclick="generate()">Reveal My Fate</button>
-</div>
+    <input type="text" id="nameInput" placeholder="Your name here…" />
+    <button onclick="revealFate()">Reveal my fate</button>
 
-<div class="overlay" id="overlay">
-  <div class="modal" id="modal">
-    <p id="result"></p>
-    <button class="close-btn" onclick="closeModal()">Close</button>
+    <div id="result"></div>
   </div>
-</div>
 
-<script>
-  const templates = [
-    "{nama}, your aura today is louder than free WiFi with full bars ✨",
-    "{nama}, the universe finds you mildly dangerous",
-    "{nama}, fate says you're the main character today",
-    "{nama}, overthinking is scheduled for tonight",
-    "{nama}, you're illegally charming and it's a problem 🔥"
-  ];
+  <script>
+    const fortunes = [
+      "you radiate main-character energy today.",
+      "you are hotter than ayam gepuk at 2 a.m.",
+      "someone is secretly smiling because of you.",
+      "the universe thinks you’re a little bit dangerous (in a good way).",
+      "today is soft, lucky, and very you-coded.",
+      "even chaos pauses when you enter the room."
+    ];
 
-  function generate() {
-    const name = document.getElementById("nameInput").value || "You";
-    const random = templates[Math.floor(Math.random() * templates.length)];
-    document.getElementById("result").innerText = random.replace("{nama}", name);
+    function revealFate() {
+      const name = document.getElementById("nameInput").value.trim();
+      const result = document.getElementById("result");
 
-    document.getElementById("overlay").style.display = "flex";
-    createSparkles();
-  }
+      if (!name) {
+        result.innerHTML = `<div class="result-box">Please enter a name ✨</div>`;
+        return;
+      }
 
-  function closeModal() {
-    document.getElementById("overlay").style.display = "none";
-  }
+      const randomFortune = fortunes[Math.floor(Math.random() * fortunes.length)];
 
-  function createSparkles() {
-    const modal = document.getElementById("modal");
-
-    for (let i = 0; i < 18; i++) {
-      const s = document.createElement("div");
-      s.className = "sparkle";
-      s.style.left = Math.random() * 100 + "%";
-      s.style.top = Math.random() * 100 + "%";
-      modal.appendChild(s);
-
-      setTimeout(() => s.remove(), 1000);
+      result.innerHTML = `
+        <div class="result-box">
+          <strong>${name}</strong>, ${randomFortune}
+        </div>
+      `;
     }
-  }
-</script>
+  </script>
 
 </body>
 </html>
-
