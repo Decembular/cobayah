@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Chaotic Prophecy</title>
+<title>Chaotic Prophecy Fireworks</title>
 
 <style>
   * { box-sizing: border-box; margin:0; padding:0; }
@@ -19,25 +19,27 @@
     color: #fff;
   }
 
-  /* Floating particles background */
+  /* FIREWORKS PARTICLE */
   .particle {
     position: absolute;
+    width: 6px;
+    height: 6px;
     border-radius: 50%;
-    opacity: 0.6;
-    animation: float 10s linear infinite;
+    opacity: 0.8;
+    pointer-events: none;
+    animation: rise 1.5s ease-out forwards;
   }
 
-  @keyframes float {
-    0% { transform: translateY(100vh) translateX(0) scale(1); opacity: 0.3; }
-    50% { opacity: 0.6; }
-    100% { transform: translateY(-10vh) translateX(50px) scale(1.2); opacity: 0; }
+  @keyframes rise {
+    0% { transform: translateY(0) scale(1); opacity: 1; }
+    100% { transform: translateY(-100px) scale(0.5); opacity: 0; }
   }
 
   /* CARD */
   .card {
     position: relative;
     z-index: 10;
-    background: rgba(255, 255, 255, 0.85);
+    background: rgba(245,245,245,0.85);
     backdrop-filter: blur(12px);
     padding: 28px;
     border-radius: 20px;
@@ -54,15 +56,14 @@
   }
 
   h1 {
-    font-size: 1.7rem;
-    color: #fce910;
-    text-shadow: 1px 1px #c22a29;
-    margin-bottom: 12px;
+    font-size: 1.6rem;
+    color: #1151a1;
+    margin-bottom: 10px;
   }
 
   p {
     font-size: 1rem;
-    color: #fff;
+    color: #333;
     opacity: 0.85;
     margin-bottom: 20px;
   }
@@ -70,7 +71,7 @@
   input {
     width: 100%;
     padding: 14px;
-    font-size: 1.05rem;
+    font-size: 1rem;
     border-radius: 12px;
     border: 1px solid #ccc;
     margin-bottom: 16px;
@@ -80,7 +81,7 @@
   button {
     width: 100%;
     padding: 14px;
-    font-size: 1.05rem;
+    font-size: 1rem;
     border-radius: 14px;
     border: none;
     background: #c22a29;
@@ -149,36 +150,19 @@
 
 <body>
 
-  <!-- Floating particles -->
-  <script>
-    for(let i=0; i<30; i++){
-      const p = document.createElement("div");
-      p.classList.add("particle");
-      const size = Math.random()*6+4; // 4px-10px
-      p.style.width = `${size}px`;
-      p.style.height = `${size}px`;
-      p.style.left = `${Math.random()*100}vw`;
-      p.style.background = ['#c22a29','#fce910','#1151a1'][Math.floor(Math.random()*3)];
-      p.style.animationDuration = `${6+Math.random()*8}s`;
-      document.body.appendChild(p);
-    }
-  </script>
+<div class="card">
+  <h1>✨ Your Chaotic Fate</h1>
+  <p>Type your name and let the cosmic nonsense unfold.</p>
+  <input type="text" id="nameInput" placeholder="Your name…"/>
+  <button onclick="revealFate()">Reveal Fate</button>
+</div>
 
-  <!-- CARD -->
-  <div class="card">
-    <h1>✨ Your Chaotic Fate</h1>
-    <p>Type your name and let the cosmic nonsense unfold.</p>
-    <input type="text" id="nameInput" placeholder="Your name…"/>
-    <button onclick="revealFate()">Reveal Fate</button>
+<div class="overlay" id="overlay">
+  <div class="modal" id="modal">
+    <p id="result"></p>
+    <button class="close-btn" onclick="closeModal()">Close</button>
   </div>
-
-  <!-- MODAL -->
-  <div class="overlay" id="overlay">
-    <div class="modal" id="modal">
-      <p id="result"></p>
-      <button class="close-btn" onclick="closeModal()">Close</button>
-    </div>
-  </div>
+</div>
 
 <script>
   const fortunes = [
@@ -195,10 +179,28 @@
     const randomFortune = fortunes[Math.floor(Math.random()*fortunes.length)];
     document.getElementById("result").innerText = `${name}, ${randomFortune}`;
     document.getElementById("overlay").style.display = "flex";
+
+    createFireworks();
   }
 
   function closeModal(){
     document.getElementById("overlay").style.display = "none";
+  }
+
+  // FIREWORKS PARTICLES
+  function createFireworks(){
+    for(let i=0;i<30;i++){
+      const p = document.createElement("div");
+      p.classList.add("particle");
+      const size = Math.random()*6+4;
+      p.style.width = `${size}px`;
+      p.style.height = `${size}px`;
+      p.style.left = `${Math.random()*100}vw`;
+      p.style.background = ['#c22a29','#fce910','#1151a1'][Math.floor(Math.random()*3)];
+      p.style.animationDuration = `${1+Math.random()*1}s`;
+      document.body.appendChild(p);
+      setTimeout(()=>p.remove(), 1500);
+    }
   }
 </script>
 
