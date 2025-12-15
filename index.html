@@ -1,163 +1,184 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Chaotic Prophecy</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<title>Chaotic Prophecy</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <style>
-    body {
-      margin: 0;
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center
-      font-family: Arial, sans-serif;
+<style>
+  body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Arial', sans-serif;
 
-  background-image: url("poster.gif");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
+    /* CUSTOM BACKGROUND */
+    background: url("poster.gif") center / cover no-repeat fixed;
+  }
+
+  .card {
+    background: rgba(255,255,255,0.9);
+    padding: 28px;
+    border-radius: 22px;
+    width: 94%;
+    max-width: 420px;
+    text-align: center;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+  }
+
+  h1 {
+    font-size: 2rem;
+    margin-bottom: 12px;
+  }
+
+  p {
+    font-size: 1.1rem;
+    color: #444;
+    margin-bottom: 20px;
+  }
+
+  input, button {
+    width: 100%;
+    padding: 16px;
+    font-size: 1.1rem;
+    border-radius: 14px;
+    border: none;
+  }
+
+  input {
+    border: 1px solid #ccc;
+    margin-bottom: 16px;
+  }
+
+  button {
+    background: #2f6bff;
+    color: white;
+    cursor: pointer;
+  }
+
+  /* ===== OVERLAY ===== */
+  .overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.55);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+  }
+
+  .modal {
+    background: white;
+    border-radius: 24px;
+    padding: 28px;
+    max-width: 420px;
+    width: 100%;
+    text-align: center;
+    animation: fadeUp 0.45s ease forwards;
+    position: relative;
+    overflow: hidden;
+  }
+
+  @keyframes fadeUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px) scale(0.96);
     }
-
-    .card {
-      background: rgba(255,255,255,0.95);
-      padding: 28px;
-      border-radius: 20px;
-      width: 94%;
-      max-width: 420px;
-      text-align: center;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
     }
+  }
 
-    h1 {
-      font-size: 2rem;
-      margin-bottom: 12px;
-    }
+  .modal p {
+    font-size: 1.35rem;
+    margin-bottom: 22px;
+  }
 
-    p {
-      font-size: 1.1rem;
-      margin-bottom: 20px;
-      color: #444;
-    }
+  .close-btn {
+    background: #ff4d4d;
+    color: white;
+  }
 
-    input {
-      width: 100%;
-      padding: 16px;
-      font-size: 1.1rem;
-      border-radius: 12px;
-      border: 1px solid #ccc;
-      margin-bottom: 16px;
-    }
+  /* ===== SPARKLES ===== */
+  .sparkle {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    background: gold;
+    border-radius: 50%;
+    animation: sparkle 1s ease-out forwards;
+    pointer-events: none;
+  }
 
-    button {
-      width: 100%;
-      padding: 16px;
-      font-size: 1.1rem;
-      border-radius: 14px;
-      border: none;
-      background: #2f6bff;
-      color: white;
-      cursor: pointer;
+  @keyframes sparkle {
+    from {
+      opacity: 1;
+      transform: scale(1);
     }
-
-    button:hover {
-      background: #1f4ed8;
+    to {
+      opacity: 0;
+      transform: scale(2) translateY(-20px);
     }
-
-    /* ===== MODAL ===== */
-    .overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.5);
-      display: none;
-      justify-content: center;
-      align-items: center;
-      padding: 20px;
-    }
-
-    .modal {
-      background: white;
-      border-radius: 20px;
-      padding: 26px;
-      max-width: 400px;
-      width: 100%;
-      text-align: center;
-      animation: pop 0.25s ease;
-    }
-
-    @keyframes pop {
-      from {
-        transform: scale(0.9);
-        opacity: 0;
-      }
-      to {
-        transform: scale(1);
-        opacity: 1;
-      }
-    }
-
-    .modal p {
-      font-size: 1.3rem;
-      margin-bottom: 20px;
-    }
-
-    .close-btn {
-      background: #ff4d4d;
-    }
-
-    .close-btn:hover {
-      background: #e63c3c;
-    }
-  </style>
+  }
+</style>
 </head>
 
 <body>
 
-  <div class="card">
-    <h1>✨ Your Daily Chaotic Prophecy</h1>
-    <p>Enter your name and let the fake universe speak.</p>
+<div class="card">
+  <h1>✨ Your Daily Chaotic Prophecy</h1>
+  <p>Enter your name and let the fake universe speak.</p>
 
-    <input id="nameInput" placeholder="Your name here" />
+  <input id="nameInput" placeholder="Your name here">
+  <button onclick="generate()">Reveal My Fate</button>
+</div>
 
-    <button onclick="generate()">Reveal My Fate</button>
+<div class="overlay" id="overlay">
+  <div class="modal" id="modal">
+    <p id="result"></p>
+    <button class="close-btn" onclick="closeModal()">Close</button>
   </div>
+</div>
 
-  <!-- POPUP -->
-  <div class="overlay" id="overlay">
-    <div class="modal">
-      <p id="result"></p>
-      <button class="close-btn" onclick="closeModal()">Close</button>
-    </div>
-  </div>
+<script>
+  const templates = [
+    "{nama}, your aura today is louder than free WiFi with full bars ✨",
+    "{nama}, the universe finds you mildly dangerous",
+    "{nama}, fate says you're the main character today",
+    "{nama}, overthinking is scheduled for tonight",
+    "{nama}, you're illegally charming and it's a problem 🔥"
+  ];
 
-  <script>
-    const templates = [
-      "{nama}, your aura today is louder than free WiFi with full bars 📶",
-      "{nama}, the universe says you're dangerously charming",
-      "{nama}, today you radiate main-character energy",
-      "{nama}, fate predicts unnecessary overthinking tonight",
-      "{nama}, you're hotter than spicy fried chicken and it's concerning 🔥"
-    ];
+  function generate() {
+    const name = document.getElementById("nameInput").value || "You";
+    const random = templates[Math.floor(Math.random() * templates.length)];
+    document.getElementById("result").innerText = random.replace("{nama}", name);
 
-    function generate() {
-      const name = document.getElementById("nameInput").value || "You";
-      const random = templates[Math.floor(Math.random() * templates.length)];
+    document.getElementById("overlay").style.display = "flex";
+    createSparkles();
+  }
 
-      document.getElementById("result").innerText =
-        random.replace("{nama}", name);
+  function closeModal() {
+    document.getElementById("overlay").style.display = "none";
+  }
 
-      document.getElementById("overlay").style.display = "flex";
+  function createSparkles() {
+    const modal = document.getElementById("modal");
+
+    for (let i = 0; i < 18; i++) {
+      const s = document.createElement("div");
+      s.className = "sparkle";
+      s.style.left = Math.random() * 100 + "%";
+      s.style.top = Math.random() * 100 + "%";
+      modal.appendChild(s);
+
+      setTimeout(() => s.remove(), 1000);
     }
-
-    function closeModal() {
-      document.getElementById("overlay").style.display = "none";
-    }
-  </script>
+  }
+</script>
 
 </body>
 </html>
-
-
-
